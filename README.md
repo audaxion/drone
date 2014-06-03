@@ -1,7 +1,7 @@
-BeavisBot
+drone
 ==========
 
-A port of SparkleBot for plug.dj. This bot uses https://github.com/TATDK/plugapi as its API dependency.  This API differs significantly from the previous atomjack/chrisinajar versions.  Install it straight from git - it's not available on NPM yet. Otherwise, everything's included except node - just remove the `.sample` from the config and database files, replace the DB values with your own, and everything should work.
+A port of SparkleBot for plug.dj. This bot uses https://github.com/TATDK/plugapi as its API dependency.  This API differs significantly from the previous atomjack/chrisinajar versions.  Otherwise, everything's included except node - just remove the `.sample` from the config and database files, replace the DB values with your own, and everything should work.
 
 Known Issues
 =============
