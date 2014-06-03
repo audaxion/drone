@@ -1,19 +1,19 @@
 {
-    "name": "sparklebot",
-    "description": "A customizable plug.dj room bot.",
+    "name": "drone",
+    "description": "A customizable plug.dj room bot based on sparklebot by Kate Wellington <sharedferret@gmail.com>.",
     "version": "2.1.0",
-    "keywords": ["turntable.fm", "turntable", "plug.dj", "plug"],
+    "keywords": ["plug.dj", "plug", "acth"],
     "repository": {
         "type": "git",
-        "url": "git://github.com/sharedferret/SparkleBot.git"
+        "url": "git://github.com/audaxion/drone.git"
     },
-    "author": "Kate Wellington <sharedferret@gmail.com>",
+    "author": "Robb Wright <audaxion@gmail.com>",
     "main": "sparkle.js",
     "directories": {
         "commands": "commands"
     },
     "engines": {
-        "node": ">= 0.6.0"
+        "node": ">= 0.10.0"
     },
     "dependencies": {
         "plugapi": "*",
@@ -24,5 +24,8 @@
         "moment": "*"
     },
     "devDependencies": {},
-    "optionalDependencies": {}
+    "optionalDependencies": {},
+    "scripts": {
+        "start": "node sparkle.js"
+    }
 }
