@@ -1,4 +1,5 @@
 module.exports = {
+    port: process.env.PORT || 8080,
     lastFm: {
         apiKey: process.env.LASTFM_API_KEY || '',
         apiSecret: process.env.LASTFM_API_SECRET || '',
