@@ -1,1 +1,1 @@
-web: node sparkle.js
+worker: node sparkle.js
