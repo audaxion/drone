@@ -21,3 +21,4 @@ sparkle.sqlite
 test.js
 
 .idea
+.env
