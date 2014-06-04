@@ -15,7 +15,7 @@ module.exports = {
         auth: process.env.PLUG_AUTH || '',
         roomName: process.env.PLUG_ROOM || 'acth',
         autoWoot: process.env.PLUG_AUTOWOOT || 'ALL',
-        autoSuggestCorrections: process.env.PLUG_AUTOSUGGEST || true,
+        autoSuggestCorrections: process.env.PLUG_AUTOSUGGEST || false,
         stopBotOnConnectionLoss: process.env.PLUG_STOP_ON_CONNECTION_LOSS || true,
         welcomeUsers: process.env.PLUG_WELCOME_USERS || 'NONE',
         requireWootInLine: process.env.PLUG_REQUIRE_WOOT || false,
