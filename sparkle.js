@@ -5,15 +5,6 @@ var config = require('config');
 var runCount = 0;
 var startupTimestamp = new Date();
 
-var http = require("http");
-var port = config.port;
-
-http.createServer(function(request, response) {
-    console.log("Request for:  " + request.url);
-    response.writeHead(200);
-    response.end("PING\n");
-}).listen(port);
-
 if (config.plug.auth != "") {
     console.log("[INIT] Using auth key: " + config.plug.auth);
     runBot(false, config.plug.auth);
@@ -31,6 +22,7 @@ function runBot(error, auth) {
     initializeModules(auth);
 
     bot.connect(config.plug.roomName);
+    bot.tcpListen(config.port, config.address);
 
     bot.on('roomJoin', function(data) {
 
