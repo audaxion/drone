@@ -22,3 +22,4 @@ test.js
 
 .idea
 .env
+config/runtime.json
