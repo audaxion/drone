@@ -1,3 +1,5 @@
+var config = require('config');
+
 exports.names = ['.fixsong'];
 exports.hidden = true;
 exports.enabled = true;
