@@ -32,7 +32,7 @@ function runBot(error, auth) {
             bot.sendChat(config.responses.botConnect);
         }*/
         if (bot.getMedia() != null) {
-            autoWoot(data);
+            autoWoot();
 
             var media = bot.getMedia();
             console.log(media);
@@ -166,7 +166,7 @@ function runBot(error, auth) {
         }
 
         if (data.media != null) {
-            autoWoot(data);
+            autoWoot();
 
             // Perform automatic song metadata correction
             if (config.plug.autoSuggestCorrections) {
