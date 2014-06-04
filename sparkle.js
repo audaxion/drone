@@ -375,11 +375,11 @@ function runBot(error, auth) {
         }
     }
 
-    function autoWoot(data) {
+    function autoWoot() {
         if (config.plug.autoWoot == 'ALL') {
             bot.woot();
         } else if (config.plug.autoWoot == 'RANKED') {
-            if (data.dj.user.permission >= config.API.ROLE.RESIDENTDJ) {
+            if (bot.getDJ().permission >= config.API.ROLE.RESIDENTDJ) {
                 bot.woot();
             }
         }
