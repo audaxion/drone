@@ -4,7 +4,7 @@ exports.enabled = true;
 exports.matchStart = true;
 exports.handler = function(data) {
     function checkEchoNest(valueToCorrect) {
-        request('http://developer.echonest.com/api/v4/song/search?api_key=' + config.apiKeys.echoNest + '&format=json&results=1&combined=' + S(valueToCorrect).escapeHTML().stripPunctuation().s, function(error, response, body) {
+        request('http://developer.echonest.com/api/v4/song/search?api_key=' + config.echoNest.apiKey + '&format=json&results=1&combined=' + S(valueToCorrect).escapeHTML().stripPunctuation().s, function(error, response, body) {
             bot.log('echonest body', body);
             if (error) {
                 bot.sendChat('An error occurred while connecting to EchoNest.');
@@ -21,7 +21,7 @@ exports.handler = function(data) {
         });
     }
     
-    if (config.apiKeys.echoNest == null || config.apiKeys.echoNest == '###') {
+    if (config.echoNest.apiKey == null || config.echoNest.apiKey == '###') {
         bot.sendChat('A valid EchoNest API key is needed to run this command.');
         return;
     }

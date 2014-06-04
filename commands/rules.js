@@ -3,12 +3,6 @@ exports.hidden = false;
 exports.enabled = true;
 exports.matchStart = true;
 exports.handler = function (data) {
-    var message = "";
-    var input = _.rest(data.message.split(' '), 1).join(' ').trim();
-    if (input.length > 1) {
-        message = input + ' ';
-    }
-
-    message += config.responses.rules;
-    bot.sendChat(message);
+    bot.sendChat("- Accepted Genres (Yes/Si/Да) Future Garage / Bass / Beats / Downtempo / 170 minimal / Deep House / Ambient / Trip-Hop");
+    bot.sendChat("- Not These Genres (No/Prohibido/Нет) Chillstep (Blackmill) / Chillwave (Washed Out) / Glitch / Psytrance / Indie / Dance / Electro / Techno / Hip-Hop");
 };

@@ -1,10 +1,16 @@
 module.exports = function(options) {
     var PlugAPI = require('plugapi');
     var sqlite3 = require('sqlite3').verbose();
+    var Lastfm = require('simple-lastfm');
     
     bot = new PlugAPI(options.auth);
-    config = options.config;
     db = new sqlite3.Database(path.resolve(__dirname, 'sparkle.sqlite'));
+    lastfm = new Lastfm({
+        api_key: options.config.lastFm.apiKey,
+        api_secret: options.config.lastFm.apiSecret,
+        username: options.config.lastFm.username,
+        password: options.config.lastFm.password
+    });
     package = require(path.resolve(__dirname, 'package.json'));
     request = require('request');
     _ = require('underscore');
@@ -21,7 +27,7 @@ module.exports = function(options) {
         votes: {},
         curates: {}
     };
-    
+
     iso_languages = {
         'af': 'Afrikkans',
         'ar': 'Arabic',

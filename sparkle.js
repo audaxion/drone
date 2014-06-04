@@ -1,13 +1,13 @@
 var PlugAPI = require('plugapi');
 var fs = require('fs');
 path = require('path');
-var config = require(path.resolve(__dirname, 'config.json'));
+var config = require('config');
 var runCount = 0;
 var startupTimestamp = new Date();
 
-if (config.botinfo.auth != "") {
-    console.log("[INIT] Using auth key: " + config.botinfo.auth);
-    runBot(false, config.botinfo.auth);
+if (config.plug.auth != "") {
+    console.log("[INIT] Using auth key: " + config.plug.auth);
+    runBot(false, config.plug.auth);
 }
 else {
     // @todo Set up plug-dj-login handling
@@ -21,17 +21,33 @@ function runBot(error, auth) {
 
     initializeModules(auth);
 
-    bot.connect(config.roomName);
+    bot.connect(config.plug.roomName);
 
     bot.on('roomJoin', function(data) {
 
         bot.log('[INIT] Joined room:', data);
 
-        if (config.responses.botConnect !== "") {
+        /*if (config.responses.botConnect !== "") {
             bot.sendChat(config.responses.botConnect);
-        }
-        if (bot.getMedia() != null && config.wootSongs == 'ALL') {
+        }*/
+        if (bot.getMedia() != null && config.plug.autoWoot == 'ALL') {
             bot.woot();
+
+            var media = bot.getMedia();
+            console.log(media);
+            //scrobble now playing
+            lastfm.getSessionKey(function(result) {
+                console.log("session key = " + result.session_key);
+                if (result.success) {
+                    lastfm.scrobbleNowPlayingTrack({
+                        artist: media.author,
+                        track: media.title,
+                        callback: function (result) {
+                            console.log("in callback, finished: ", result);
+                        }
+                    });
+                }
+            });
         }
 
         bot.getUsers().forEach(function(user) { addUserToDb(user); });
@@ -48,40 +64,19 @@ function runBot(error, auth) {
         bot.log('[JOIN]', data.username);
 
         var newUser = false;
-        var message = "";
 
-        if (data.username != config.botinfo.botname) {
+        if (data.username != config.plug.botName) {
             getUserFromDb(data, function (dbUser) {
 
                 if (dbUser == undefined) {
-                    message = config.responses.welcome.newUser.replace('{username}', data.username);
                     newUser = true;
                     bot.log('[JOIN] ' + data.username + ' is a first-time visitor to the room!');
                 }
                 else {
-                    message = config.responses.welcome.oldUser.replace('{username}', data.username);
                     bot.log('[JOIN] ' + data.username + ' last seen '+ dbUser.secondsSinceLastSeen + ' seconds ago (' + dbUser.lastSeen + ')');
                 }
 
                 db.run('UPDATE USERS SET lastSeen = CURRENT_TIMESTAMP, lastActive = CURRENT_TIMESTAMP, lastWaitListPosition = -1 WHERE userid = ?', [data.id]);
-
-                // Greet with the theme if it's not the default
-                db.get("SELECT value AS 'theme', username, timestamp FROM SETTINGS s INNER JOIN USERS ON s.userid = USERS.userid WHERE name = ? LIMIT 1", ['theme'], function (error, row) {
-                    if (row != null && row.theme != config.responses.theme) {
-                        regExp = new RegExp(/^(.*?)[.?!-]\s/);
-                        matches = regExp.exec(row.theme);
-                        message += ' Theme: ' + matches[0] + ' .theme for details!';
-                    }
-                });
-
-                if (message && (config.welcomeUsers == "NEW" || config.welcomeUsers == "ALL")) {
-                    if (newUser) {
-                        setTimeout(function(){ bot.sendChat(message) }, 5000);
-                    }
-                    else if(config.welcomeUsers == "ALL" && dbUser.secondsSinceLastSeen >= 600) {
-                        setTimeout(function(){ bot.sendChat(message) }, 5000);
-                    }
-                }
 
                 // Restore spot in line if user has been gone < 10 mins
                 if(!newUser && dbUser.secondsSinceLastSeen <= 600 && dbUser.lastWaitListPosition != -1 && bot.getWaitListPosition(data.id) != dbUser.lastWaitListPosition) {
@@ -96,7 +91,7 @@ function runBot(error, auth) {
             });
             addUserToDb(data);
         }
-    })
+    });
 
     bot.on('userLeave', function(data) {
         getUserFromDb(data, function (user) {
@@ -153,35 +148,50 @@ function runBot(error, auth) {
                     data.lastPlay.score.negative,
                     data.lastPlay.score.curates,
                     data.lastPlay.score.listeners]);
+
+            //scrobble last play
+            lastfm.getSessionKey(function(result) {
+                console.log("session key = " + result.session_key);
+                if (result.success) {
+                    lastfm.scrobbleTrack({
+                        artist: data.lastPlay.media.author,
+                        track: data.lastPlay.media.title,
+                        callback: function (result) {
+                            console.log("in callback, finished: ", result);
+                        }
+                    });
+                }
+            });
         }
 
         if (data.media != null) {
-            if (config.wootSongs == 'ALL') {
+            if (config.plug.autoWoot == 'ALL') {
                 bot.woot();
             }
 
-            // DOL Checks: Specific quirky bot messages (feel free to nuke)
-            if (data.media.author == 'U2') {
-                bot.sendChat(':boom:');
-            }
-            else if (data.media.author == 'Wing') {
-                bot.sendChat('OH MY GOD MY EARS! :hear_no_evil:')
-                bot.meh();
-            }
-            else if (data.media.author == 'Extreme' || data.media.title == 'To Be With You' || data.media.title == 'Winds of Change' || data.media.title == 'Under the Bridge') {
-                bot.sendChat('What is this dreck?');
-            }
-
             // Perform automatic song metadata correction
-            if (config.autoSuggestCorrections) {
+            if (config.plug.autoSuggestCorrections) {
                 correctMetadata();
             }
 
-            var maxIdleTime = config.activeDJTimeoutMins * 60;
+            //scrobble now playing
+            lastfm.getSessionKey(function(result) {
+                console.log("session key = " + result.session_key);
+                if (result.success) {
+                    lastfm.scrobbleNowPlayingTrack({
+                        artist: data.media.author,
+                        track: data.media.title,
+                        callback: function (result) {
+                            console.log("in callback, finished: ", result);
+                        }
+                    });
+                }
+            });
+
+            /*var maxIdleTime = config.plug.activeDJTimeoutMins * 60;
             var roomHasActiveMods = false;
             var idleDJs = [];
             var z = 0;
-
 
             idleWaitList = bot.getWaitList();
             idleWaitList.forEach(function(dj) {
@@ -194,7 +204,7 @@ function runBot(error, auth) {
                     if (row != null) {
 
                         // Only bug idle people if the bot has been running for as long as the minimum idle time
-                        if(row.secondsSinceLastActive >= maxIdleTime && moment().isAfter(moment(startupTimestamp).add('minutes', config.activeDJTimeoutMins))) {
+                        if(row.secondsSinceLastActive >= maxIdleTime && moment().isAfter(moment(startupTimestamp).add('minutes', config.plug.activeDJTimeoutMins))) {
                             bot.log('[IDLE] ' + position + '. ' + row.username + ' last active '+ moment.utc(row.lastActive).fromNow());
                             if (row.warns > 0) {
                                 bot.moderateRemoveDJ(dj.id);
@@ -229,7 +239,7 @@ function runBot(error, auth) {
                         }
                     }
                 });
-            });
+            });*/
         }
 
         // Cleanup functions
@@ -250,7 +260,7 @@ function runBot(error, auth) {
         });
     });
 
-    if (config.requireWootInLine || config.activeDJTimeoutMins > 0) {
+    if (config.plug.requireWootInLine || config.plug.activeDJTimeoutMins > 0) {
         setInterval(function () {
             monitorDJList();
         }, 5000);
@@ -274,12 +284,12 @@ function runBot(error, auth) {
     }
 
     function reconnect() {
-        bot.connect(config.roomName);
+        bot.connect(config.plug.roomName);
     }
 
     function monitorDJList() {
 
-        if (config.prohibitMehInLine) {
+        if (config.plug.prohibitMehInLine) {
             mehWaitlist = bot.getWaitList();
             mehWaitlist.forEach(function(dj) {
                 if (dj.vote == '-1') {
@@ -361,7 +371,7 @@ function runBot(error, auth) {
 
             command.handler(data);
         }
-        else if (data.message.indexOf('@' + config.botinfo.botname) > -1) {
+        else if (data.message.indexOf('@' + config.plug.botName) > -1) {
             botMentionResponse(data);
         }
     }
@@ -396,7 +406,7 @@ function runBot(error, auth) {
 
     function suggestNewSongMetadata(valueToCorrect) {
         media = bot.getMedia();
-        request('http://developer.echonest.com/api/v4/song/search?api_key=' + config.apiKeys.echoNest + '&format=json&results=1&combined=' + S(valueToCorrect).escapeHTML().stripPunctuation().s, function(error, response, body) {
+        request('http://developer.echonest.com/api/v4/song/search?api_key=' + config.echoNest.apiKey + '&format=json&results=1&combined=' + S(valueToCorrect).escapeHTML().stripPunctuation().s, function(error, response, body) {
             bot.log('echonest body', body);
             if (error) {
                 bot.sendChat('An error occurred while connecting to EchoNest.');
