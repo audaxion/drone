@@ -31,8 +31,8 @@ function runBot(error, auth) {
         /*if (config.responses.botConnect !== "") {
             bot.sendChat(config.responses.botConnect);
         }*/
-        if (bot.getMedia() != null && config.plug.autoWoot == 'ALL') {
-            bot.woot();
+        if (bot.getMedia() != null) {
+            autoWoot(data);
 
             var media = bot.getMedia();
             console.log(media);
@@ -166,9 +166,7 @@ function runBot(error, auth) {
         }
 
         if (data.media != null) {
-            if (config.plug.autoWoot == 'ALL') {
-                bot.woot();
-            }
+            autoWoot(data);
 
             // Perform automatic song metadata correction
             if (config.plug.autoSuggestCorrections) {
@@ -374,6 +372,16 @@ function runBot(error, auth) {
         }
         else if (data.message.indexOf('@' + config.plug.botName) > -1) {
             botMentionResponse(data);
+        }
+    }
+
+    function autoWoot(data) {
+        if (config.plug.autoWoot == 'ALL') {
+            bot.woot();
+        } else if (config.plug.autoWoot == 'RANKED') {
+            if (data.dj.user.permission >= config.API.ROLE.RESIDENTDJ) {
+                bot.woot();
+            }
         }
     }
 
