@@ -371,7 +371,7 @@ function runBot(error, auth) {
             command.handler(data);
         }
         else if (data.message.indexOf('@' + config.plug.botName) > -1) {
-            botMentionResponse(data);
+            //botMentionResponse(data);
         }
     }
 
