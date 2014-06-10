@@ -2,9 +2,11 @@ module.exports = function(options) {
     var PlugAPI = require('plugapi');
     var sqlite3 = require('sqlite3').verbose();
     var Lastfm = require('simple-lastfm');
+
+    var dbPath = options.config.dbPath || __dirname;
     
     bot = new PlugAPI(options.auth);
-    db = new sqlite3.Database(path.resolve(__dirname, 'sparkle.sqlite'));
+    db = new sqlite3.Database(path.resolve(dbPath, 'sparkle.sqlite'));
     lastfm = new Lastfm({
         api_key: options.config.lastFm.apiKey,
         api_secret: options.config.lastFm.apiSecret,
