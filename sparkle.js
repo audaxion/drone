@@ -22,7 +22,7 @@ function runBot(error, auth) {
     initializeModules(auth);
 
     bot.connect(config.plug.roomName);
-    bot.tcpListen(config.port, config.address);
+    //bot.tcpListen(config.port, config.address);
 
     bot.on('roomJoin', function(data) {
 
