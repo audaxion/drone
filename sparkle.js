@@ -36,19 +36,23 @@ function runBot(error, auth) {
 
             var media = bot.getMedia();
             console.log(media);
-            //scrobble now playing
-            lastfm.getSessionKey(function(result) {
-                console.log("session key = " + result.session_key);
-                if (result.success) {
-                    lastfm.scrobbleNowPlayingTrack({
-                        artist: media.author,
-                        track: media.title,
-                        callback: function (result) {
-                            console.log("in callback, finished: ", result);
-                        }
-                    });
-                }
-            });
+            try {
+                //scrobble now playing
+                lastfm.getSessionKey(function (result) {
+                    console.log("session key = " + result.session_key);
+                    if (result.success) {
+                        lastfm.scrobbleNowPlayingTrack({
+                            artist: media.author,
+                            track: media.title,
+                            callback: function (result) {
+                                console.log("in callback, finished: ", result);
+                            }
+                        });
+                    }
+                });
+            } catch(err) {
+                console.log("[ERROR]: " + err);
+            }
         }
 
         bot.getUsers().forEach(function(user) { addUserToDb(user); });
@@ -150,19 +154,23 @@ function runBot(error, auth) {
                     data.lastPlay.score.curates,
                     data.lastPlay.score.listeners]);
 
-            //scrobble last play
-            lastfm.getSessionKey(function(result) {
-                console.log("session key = " + result.session_key);
-                if (result.success) {
-                    lastfm.scrobbleTrack({
-                        artist: data.lastPlay.media.author,
-                        track: data.lastPlay.media.title,
-                        callback: function (result) {
-                            console.log("in callback, finished: ", result);
-                        }
-                    });
-                }
-            });
+            try {
+                //scrobble last play
+                lastfm.getSessionKey(function (result) {
+                    console.log("session key = " + result.session_key);
+                    if (result.success) {
+                        lastfm.scrobbleTrack({
+                            artist: data.lastPlay.media.author,
+                            track: data.lastPlay.media.title,
+                            callback: function (result) {
+                                console.log("in callback, finished: ", result);
+                            }
+                        });
+                    }
+                });
+            } catch(err) {
+                console.log("[ERROR]: " + err);
+            }
         }
 
         if (data.media != null) {
@@ -173,19 +181,23 @@ function runBot(error, auth) {
                 correctMetadata();
             }
 
-            //scrobble now playing
-            lastfm.getSessionKey(function(result) {
-                console.log("session key = " + result.session_key);
-                if (result.success) {
-                    lastfm.scrobbleNowPlayingTrack({
-                        artist: data.media.author,
-                        track: data.media.title,
-                        callback: function (result) {
-                            console.log("in callback, finished: ", result);
-                        }
-                    });
-                }
-            });
+            try {
+                //scrobble now playing
+                lastfm.getSessionKey(function (result) {
+                    console.log("session key = " + result.session_key);
+                    if (result.success) {
+                        lastfm.scrobbleNowPlayingTrack({
+                            artist: data.media.author,
+                            track: data.media.title,
+                            callback: function (result) {
+                                console.log("in callback, finished: ", result);
+                            }
+                        });
+                    }
+                });
+            } catch(err) {
+                console.log("[ERROR]: " + err);
+            }
 
             /*var maxIdleTime = config.plug.activeDJTimeoutMins * 60;
             var roomHasActiveMods = false;
