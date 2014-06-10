@@ -1,6 +1,6 @@
 module.exports = {
-    address: process.env.ADDRESS || 'localhost',
-    port: process.env.PORT || 8080,
+    address: process.env.OPENSHIFT_APP_DNS || 'localhost',
+    port: process.env.OPENSHIFT_NODEJS_PORT || 8080,
     dbPath: process.env.OPENSHIFT_DATA_DIR,
     lastFm: {
         apiKey: process.env.LASTFM_API_KEY || '',
