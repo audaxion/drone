@@ -47,22 +47,22 @@ exports.handler = function(data) {
 
         db.get('SELECT * FROM USERS LEFT JOIN DISCIPLINE USING(userid) WHERE username = ?', [username.substring(1)], function (error, row) {
             if(row) {
-                bot.log('[DEBUG] ' + command + ': ' + username + ' (' + row.userid + ') ' + duration + ' by ' + data.from);
+                console.log('[DEBUG] ' + command + ': ' + username + ' (' + row.userid + ') ' + duration + ' by ' + data.from);
                 switch(command) {
                     case '.ban':
                         bot.moderateBanUser(row.userid, 0, apiDuration, function() {
-                            bot.log('[BAN] ' + username + ' was banned for ' + duration + ' by ' + data.from);
+                            console.log('[BAN] ' + username + ' was banned for ' + duration + ' by ' + data.from);
                             db.run('UPDATE DISCIPLINE SET kicks = kicks + 1, lastAction = CURRENT_TIMESTAMP WHERE userid = ?', [row.userid]);
                         });
                         break;
                     case '.unban':
                         bot.moderateUnbanUser(row.userid, function() {
                             bot.sendChat('/me unbanning ' + username + '. This can take a few moments...');
-                            bot.log('[UNBAN] ' + username + ' was unbanned by ' + data.from);
+                            console.log('[UNBAN] ' + username + ' was unbanned by ' + data.from);
                         });
                         break;
                     default:
-                        bot.log('Invalid command called: ' + command);
+                        console.log('Invalid command called: ' + command);
                         break;
                 }
             }

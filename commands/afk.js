@@ -15,11 +15,11 @@ exports.handler = function(data) {
                 z++;
                 if (row != null) {
                     if(row.secondsSinceLastActive >= maxIdleTime) {
-                        bot.log('[IDLE] ' + z + '. ' + row.username + ' last active ' + moment.utc(row.lastActive).fromNow());
+                        console.log('[IDLE] ' + z + '. ' + row.username + ' last active ' + moment.utc(row.lastActive).fromNow());
                         idleDJs.push(row.username + ' (' + moment.utc(row.lastActive).fromNow(true) + ')');
                     }
                     else {
-                        bot.log('[ACTIVE] ' + z + '. ' + row.username + ' last active ' + moment.utc(row.lastActive).fromNow());
+                        console.log('[ACTIVE] ' + z + '. ' + row.username + ' last active ' + moment.utc(row.lastActive).fromNow());
                     }
 
                     if (z == waitlist.length) {

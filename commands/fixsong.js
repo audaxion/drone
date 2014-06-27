@@ -7,10 +7,10 @@ exports.matchStart = true;
 exports.handler = function(data) {
     function checkEchoNest(valueToCorrect) {
         request('http://developer.echonest.com/api/v4/song/search?api_key=' + config.echoNest.apiKey + '&format=json&results=1&combined=' + S(valueToCorrect).escapeHTML().stripPunctuation().s, function(error, response, body) {
-            bot.log('echonest body', body);
+            console.log('echonest body', body);
             if (error) {
                 bot.sendChat('An error occurred while connecting to EchoNest.');
-                bot.log('EchoNest error', error);
+                console.log('EchoNest error', error);
             } else {
                 response = JSON.parse(body).response;
                 
@@ -53,7 +53,7 @@ exports.handler = function(data) {
             function(error) {
                 if (error) {
                     bot.sendChat('An error occurred.');
-                    bot.log('Error while updating song ' + room.media.id, error);
+                    console.log('Error while updating song ' + room.media.id, error);
                 } else {
                     bot.sendChat('Author updated.')
                 }
@@ -66,7 +66,7 @@ exports.handler = function(data) {
             function(error) {
             if (error) {
                 bot.sendChat('An error occurred.');
-                bot.log('Error while updating song ' + room.media.id, error);
+                console.log('Error while updating song ' + room.media.id, error);
             } else {
                 bot.sendChat('Title updated.')
             }
@@ -78,12 +78,12 @@ exports.handler = function(data) {
         // first, search db
         db.get('SELECT author, title FROM SONGS WHERE id = ?', [room.media.id],
             function(error, row) {
-            bot.log('db response: ', row);
+            console.log('db response: ', row);
             if (row != null) {
                 bot.sendChat('Database values: Artist: "' + row['author'] + '". Title: "' + row['title'] + '". Use .fixsong check if this looks wrong.');
             } else {
                 // check echonest
-                bot.log('checking echonest');
+                console.log('checking echonest');
                 checkEchoNest(room.media.author + ' ' + room.media.title);
             }
         });

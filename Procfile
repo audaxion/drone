@@ -1,1 +1,1 @@
-worker: node sparkle.js
+worker: node drone.js
