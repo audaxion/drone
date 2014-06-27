@@ -10,7 +10,7 @@ exports.handler = function(data) {
             user = _.findWhere(room.users, {username: username.substring(1)});
             if (user) {
                 bot.moderateAddDJ(user.id, function() {
-                    console.log('Adding ' + username + ' to list: ' + user.id);
+                    bot.log('Adding ' + username + ' to list: ' + user.id);
                 });
             }
         }

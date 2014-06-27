@@ -18,7 +18,7 @@ exports.handler = function(data) {
                         bot.moderateMoveDJ(row.userid, position);
                     });
                 }
-                console.log('Moving ' + username + ' to position: ' + position);
+                bot.log('Moving ' + username + ' to position: ' + position);
             });
         }
     }

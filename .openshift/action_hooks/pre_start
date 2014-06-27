@@ -1,3 +1,0 @@
-#!/bin/bash
-
-export PATH=${PATH}:$OPENSHIFT_REPO_DIR/vendor/bin

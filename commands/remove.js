@@ -14,7 +14,7 @@ exports.handler = function(data) {
                     bot.sendChat(username + ' ' + config.responses.activeDJRemoveMessage);
                     db.run('UPDATE DISCIPLINE SET warns = 0, removes = removes + 1, lastAction = CURRENT_TIMESTAMP WHERE userid = ?', [row.userid]);
                 }
-                console.log('[REMOVE] ' + data.from + ' removed ' + username + ' from wait list');
+                bot.log('[REMOVE] ' + data.from + ' removed ' + username + ' from wait list');
             });
         }
     }

@@ -12,7 +12,7 @@
     "url": "git://github.com/audaxion/drone.git"
   },
   "author": "Robb Wright <audaxion@gmail.com>",
-  "main": "drone.js",
+  "main": "sparkle.js",
   "directories": {
     "commands": "commands"
   },
@@ -20,18 +20,18 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
+    "plugapi": "~2.2",
     "request": "~2.36",
     "sqlite3": "*",
     "string": "~1.8",
     "underscore": "~1.6",
     "moment": "~2.6",
     "simple-lastfm": "atomjack/simple-lastfm",
-    "config": "~0.4.36",
-    "plugbotapi": "~0.1.4"
+    "config": "~0.4.36"
   },
   "devDependencies": {},
   "optionalDependencies": {},
   "scripts": {
-    "start": "node drone.js"
+    "start": "node sparkle.js"
   }
 }
