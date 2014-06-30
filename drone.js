@@ -15,7 +15,7 @@ PlugBotAPI.getAuth({
     password: config.auth.password
 }, function (err, auth) {
     if (err) {
-        console.log("[INIT] An error occurred: " + err);
+        console.log('[ INIT ] An error occurred:', err);
         return;
     }
 
@@ -24,10 +24,10 @@ PlugBotAPI.getAuth({
     var autoWoot = function () {
         var time = moment().format();
         bot.getDJ(function (dj) {
-            console.log('[', time, '][DEBUG] DJ object: ', JSON.stringify(dj));
+            console.log('[', time, '][ DEBUG ] DJ object: ', JSON.stringify(dj));
             bot.hasPermission(dj.id, bot.API.ROLE.RESIDENTDJ, function (hasPermission) {
                 if (hasPermission) {
-                    console.log('[', time, '][DEBUG] Autowooting staff: ', dj.username);
+                    console.log('[', time, '][ DEBUG ] Autowooting staff: ', dj.username);
                     bot.woot();
                 }
             });
@@ -39,10 +39,10 @@ PlugBotAPI.getAuth({
     bot.on('roomJoin', function () {
 
         var time = moment().format();
-        console.log('[', time, '][', time, '][INIT] Joined room: ', config.plug.roomName);
+        console.log('[', time, '][', time, '][ INIT ] Joined room: ', config.plug.roomName);
 
         bot.getMedia(function (media) {
-            console.log('[', time, '][INIT] Song Playing: ', JSON.stringify(media));
+            console.log('[', time, '][ INIT ] Song Playing: ', JSON.stringify(media));
             autoWoot();
             try {
                 //scrobble now playing
@@ -52,13 +52,13 @@ PlugBotAPI.getAuth({
                             artist: media.author,
                             track: media.title,
                             callback: function (result) {
-                                console.log('[', time, '][DEBUG] Scrobbled to Now Playing: ', result);
+                                console.log('[', time, '][ DEBUG ] Scrobbled to Now Playing: ', result);
                             }
                         });
                     }
                 });
             } catch (err) {
-                console.log('[', time, '][ERROR]: ', err);
+                console.log('[', time, '][ ERROR ]: ', err);
             }
         });
     });
@@ -74,13 +74,13 @@ PlugBotAPI.getAuth({
                             artist: data.lastPlay.media.author,
                             track: data.lastPlay.media.title,
                             callback: function (result) {
-                                console.log('[', time, '][DEBUG] Scrobbled to Last Played: ', result);
+                                console.log('[', time, '][ DEBUG ] Scrobbled to Last Played: ', result);
                             }
                         });
                     }
                 });
             } catch (err) {
-                console.log('[', time, '][ERROR]: ', err);
+                console.log('[', time, '][ ERROR ]: ', err);
             }
         }
 
@@ -94,13 +94,13 @@ PlugBotAPI.getAuth({
                             artist: data.media.author,
                             track: data.media.title,
                             callback: function (result) {
-                                console.log('[', time, '][DEBUG] Scrobbled to Now Playing: ', result);
+                                console.log('[', time, '][ DEBUG ] Scrobbled to Now Playing: ', result);
                             }
                         });
                     }
                 });
             } catch (err) {
-                console.log('[', time, '][ERROR]: ', err);
+                console.log('[', time, '][ ERROR ]: ', err);
             }
         }
     });
@@ -110,21 +110,21 @@ PlugBotAPI.getAuth({
         if (data.message == '.w') {
             bot.hasPermission(data.fromID, bot.API.ROLE.BOUNCER, function (hasPermission) {
                 if (hasPermission) {
-                    console.log('[', time, '][DEBUG] ', data.from, ' wooting');
+                    console.log('[', time, '][ DEBUG ] ', data.from, ' wooting');
                     bot.woot();
                 }
             });
         } else if (data.message == '.m') {
             bot.hasPermission(data.fromID, bot.API.ROLE.BOUNCER, function (hasPermission) {
                 if (hasPermission) {
-                    console.log('[', time, '][DEBUG] ', data.from, ' mehing');
+                    console.log('[', time, '][ DEBUG ] ', data.from, ' mehing');
                     bot.meh();
                 }
             });
         } else if (data.message == '.rules') {
             bot.hasPermission(data.fromID, bot.API.ROLE.BOUNCER, function (hasPermission) {
                 if (hasPermission) {
-                    console.log('[', time, '][DEBUG] Sending rules');
+                    console.log('[', time, '][ DEBUG ] Sending rules');
                     bot.chat("- Accepted Genres (Yes/Si/Да) Future Garage / Bass / Beats / Downtempo / 170 minimal / Deep House / Ambient / Trip-Hop");
                     bot.chat("- Not These Genres (No/Prohibido/Нет) Chillstep (Blackmill) / Chillwave (Washed Out) / Glitch / Psytrance / Indie / Dance / Electro / Techno / Hip-Hop");
                 }
@@ -132,12 +132,12 @@ PlugBotAPI.getAuth({
         } else if (data.message == '.skip') {
             bot.hasPermission(data.fromID, bot.API.ROLE.BOUNCER, function (hasPermission) {
                 if (hasPermission) {
-                    console.log('[', time, '][DEBUG] skipping');
+                    console.log('[', time, '][ DEBUG ] skipping');
                     bot.moderateForceSkip();
                 }
             });
         }
 
-        console.log('[', time, '][CHAT] ' + data.from + ': ' + data.message);
+        console.log('[', time, '][ CHAT ] ', data.from, ':', data.message);
     })
 });
