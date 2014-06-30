@@ -12,7 +12,7 @@
     "url": "git://github.com/audaxion/drone.git"
   },
   "author": "Robb Wright <audaxion@gmail.com>",
-  "main": "sparkle.js",
+  "main": "drone.js",
   "directories": {
     "commands": "commands"
   },
@@ -32,6 +32,6 @@
   "devDependencies": {},
   "optionalDependencies": {},
   "scripts": {
-    "start": "node sparkle.js"
+    "start": "node drone.js"
   }
 }

@@ -127,6 +127,13 @@ PlugBotAPI.getAuth({
                     bot.chat("- Not These Genres (No/Prohibido/Нет) Chillstep (Blackmill) / Chillwave (Washed Out) / Glitch / Psytrance / Indie / Dance / Electro / Techno / Hip-Hop");
                 }
             });
+        } else if (data.message == '.skip') {
+            bot.hasPermission(data.fromID, bot.API.ROLE.BOUNCER, function (hasPermission) {
+                if (hasPermission) {
+                    console.log('[DEBUG] skipping');
+                    bot.moderateForceSkip();
+                }
+            });
         }
     })
 });
