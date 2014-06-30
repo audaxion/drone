@@ -135,5 +135,7 @@ PlugBotAPI.getAuth({
                 }
             });
         }
+
+        console.log('[CHAT] ' + data.from + ': ' + data.message);
     })
 });
