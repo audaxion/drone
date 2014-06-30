@@ -47,7 +47,6 @@ PlugBotAPI.getAuth({
             try {
                 //scrobble now playing
                 lastfm.getSessionKey(function (result) {
-                    console.log("session key = " + result.session_key);
                     if (result.success) {
                         lastfm.scrobbleNowPlayingTrack({
                             artist: media.author,
