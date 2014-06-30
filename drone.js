@@ -24,7 +24,6 @@ PlugBotAPI.getAuth({
     var autoWoot = function () {
         var time = moment().format();
         bot.getDJ(function (dj) {
-            console.log('[', time, '][ DEBUG ] DJ object: ', JSON.stringify(dj));
             bot.hasPermission(dj.id, bot.API.ROLE.RESIDENTDJ, function (hasPermission) {
                 if (hasPermission) {
                     console.log('[', time, '][ DEBUG ] Autowooting staff: ', dj.username);
