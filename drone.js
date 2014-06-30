@@ -101,7 +101,7 @@ PlugBotAPI.getAuth({
                     }
                 });
             } catch (err) {
-                console.log('[', time, '][ERROR]: ' + err);
+                console.log('[', time, '][ERROR]: ', err);
             }
         }
     });
@@ -111,14 +111,14 @@ PlugBotAPI.getAuth({
         if (data.message == '.w') {
             bot.hasPermission(data.fromID, bot.API.ROLE.BOUNCER, function (hasPermission) {
                 if (hasPermission) {
-                    console.log('[', time, '][DEBUG] wooting');
+                    console.log('[', time, '][DEBUG] ', data.from, ' wooting');
                     bot.woot();
                 }
             });
         } else if (data.message == '.m') {
             bot.hasPermission(data.fromID, bot.API.ROLE.BOUNCER, function (hasPermission) {
                 if (hasPermission) {
-                    console.log('[', time, '][DEBUG] mehing');
+                    console.log('[', time, '][DEBUG] ', data.from, ' mehing');
                     bot.meh();
                 }
             });
