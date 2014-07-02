@@ -36,6 +36,8 @@ PlugBotAPI.getAuth({
     bot.connect(config.plug.roomName);
 
     var reconnectInterval = setInterval( function () {
+        var time = moment().format();
+        console.log('[', time, '][ INFO ] RECONNECTING...');
         bot.connect(config.plug.roomName);
     }, config.plug.reconnectInterval * 1000);
 
