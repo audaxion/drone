@@ -27,7 +27,8 @@
     "moment": "~2.6",
     "simple-lastfm": "atomjack/simple-lastfm",
     "config": "~0.4.36",
-    "plugbotapi": "~0.1.4"
+    "plugbotapi": "~0.1.4",
+    "winston": "~0.7.3"
   },
   "devDependencies": {},
   "optionalDependencies": {},
