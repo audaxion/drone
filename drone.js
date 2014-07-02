@@ -35,6 +35,10 @@ PlugBotAPI.getAuth({
 
     bot.connect(config.plug.roomName);
 
+    var reconnectInterval = setInterval( function () {
+        bot.connect(config.plug.roomName);
+    }, config.plug.reconnectInterval * 1000);
+
     bot.on('roomJoin', function () {
 
         var time = moment().format();

@@ -26,7 +26,8 @@ module.exports = {
         requireWootInLine: process.env.PLUG_REQUIRE_WOOT || false,
         prohibitMehInLine: process.env.PLUG_PROHIBIT_MEH || false,
         activeDJTimeoutMins: process.env.PLUG_DJ_TIMEOUT || 0,
-        maxSongLengthSecs: process.env.PLUG_MAX_SONG_LENGTH || 0
+        maxSongLengthSecs: process.env.PLUG_MAX_SONG_LENGTH || 0,
+        reconnectInterval: process.env.PLUG_RECONNECT_INTERVAL_IN_SECS || 3600
     },
     API: {
         ROLE: {
