@@ -155,7 +155,7 @@ PlugBotAPI.getAuth({
     bot.on('chat', function (data) {
         var time = moment().format();
         if (data.message == '.w') {
-            bot.hasPermission(data.fromID, bot.API.ROLE.BOUNCER, function (hasPermission) {
+            bot.hasPermission(data.fid, bot.API.ROLE.BOUNCER, function (hasPermission) {
                 if (hasPermission) {
                     //console.log('[', time, '][ DEBUG ] ', data.from, ' wooting');
                     logger.log('mod','Woot command issued', {data: data});
@@ -163,7 +163,7 @@ PlugBotAPI.getAuth({
                 }
             });
         } else if (data.message == '.m') {
-            bot.hasPermission(data.fromID, bot.API.ROLE.BOUNCER, function (hasPermission) {
+            bot.hasPermission(data.fid, bot.API.ROLE.BOUNCER, function (hasPermission) {
                 if (hasPermission) {
                     //console.log('[', time, '][ DEBUG ] ', data.from, ' mehing');
                     logger.log('mod','Meh command issued', {data: data});
@@ -171,7 +171,7 @@ PlugBotAPI.getAuth({
                 }
             });
         } else if (data.message == '.rules') {
-            bot.hasPermission(data.fromID, bot.API.ROLE.BOUNCER, function (hasPermission) {
+            bot.hasPermission(data.fid, bot.API.ROLE.BOUNCER, function (hasPermission) {
                 if (hasPermission) {
                     //console.log('[', time, '][ DEBUG ] Sending rules');
                     bot.chat("- Accepted Genres (Yes/Si/Да) Future Garage / Bass / Beats / Downtempo / 170 minimal / Deep House / Ambient / Trip-Hop");
@@ -179,7 +179,7 @@ PlugBotAPI.getAuth({
                 }
             });
         } else if (data.message == '.skip') {
-            bot.hasPermission(data.fromID, bot.API.ROLE.BOUNCER, function (hasPermission) {
+            bot.hasPermission(data.fid, bot.API.ROLE.BOUNCER, function (hasPermission) {
                 if (hasPermission) {
                     //console.log('[', time, '][ DEBUG ] skipping');
                     logger.log('mod','Skip command issued', {data: data});
